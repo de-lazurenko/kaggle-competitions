@@ -29,12 +29,16 @@ Each competition notebook covers the full analytical cycle:
 
 ## Repository Structure
 
+```
 kaggle-playground/
-├── 01_eda.ipynb
-├── 02_modeling.ipynb
-├── data/
-│   └── data_clean.parquet
-└── README.md
+    README.md
+    s5e7-mushroom-classification/
+        01_eda.ipynb
+        02_modeling.ipynb
+        data/
+            data_clean.parquet
+        README.md
+```
 
 ## Tech Stack
 
