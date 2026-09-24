@@ -2,6 +2,13 @@
 
 A personal collection of my solutions for [Kaggle Playground Series](https://www.kaggle.com/competitions?hostSegment=playground) competitions. This repository documents my learning journey in data analytics and machine learning — from EDA and feature engineering to model building and evaluation.
 
+## Tech Stack
+
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Pandas](https://img.shields.io/badge/Pandas-2.x-lightgrey)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.x-orange)
+![LightGBM](https://img.shields.io/badge/LightGBM-4.x-green)
+
 ## Competitions
 
 | Season | Competition | Target | Key Techniques | Score | Top % |
@@ -31,13 +38,6 @@ Each competition notebook covers the full analytical cycle:
             data_clean.parquet
         README.md
 ```
-
-## Tech Stack
-
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Pandas](https://img.shields.io/badge/Pandas-2.x-lightgrey)
-![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.x-orange)
-![LightGBM](https://img.shields.io/badge/LightGBM-4.x-green)
 
 ## Author
 
