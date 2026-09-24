@@ -1,2 +1,5 @@
 data/raw/
 *.csv
+*.parquet
+__pycache__/
+.ipynb_checkpoints/
