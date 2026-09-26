@@ -4,7 +4,7 @@
 **Task:** Binary classification → `Yes` / `No` (will the customer cancel?)  
 **Metric:** ROC-AUC  
 **Dataset:** ~594,000 rows, telecom customer data  
-**Result:** Score **0.91822** — Top 4%
+**Result:** Score **0.91822** — ~166th / 4,142 — Top 4%
 
 > My first Kaggle Playground competition. Focused on learning the full EDA pipeline, building my first engineered features, and understanding the end-to-end ML workflow.
 
@@ -13,14 +13,14 @@
 ## Project Structure
 
 ```
-predict_customer_churn_s6e3/
+predicting_of_cusmoters_churn_s6e3/
 ├── README.md
-└── notebooks/
-    ├── 01_EDA.ipynb          # Exploratory Data Analysis (Denis)
-    └── 02_ML_Modeling.ipynb  # ML Pipeline (Denis + Claude AI)
+├── EDA_Customer_Churn.ipynb   # Exploratory Data Analysis (Denis)
+├── data/
+└── image/
 ```
 
-Data: download from the [competition page](https://www.kaggle.com/competitions/playground-series-s6e3/data) and place in `data/raw/`.
+ML modeling notebooks were run on Kaggle and are available on the [competition page](https://www.kaggle.com/competitions/playground-series-s6e3). Raw data: download from the [competition page](https://www.kaggle.com/competitions/playground-series-s6e3/data).
 
 ---
 
