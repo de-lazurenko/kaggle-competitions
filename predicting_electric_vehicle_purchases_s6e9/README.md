@@ -5,6 +5,8 @@
 **Competition deadline:** September 30, 2026  
 **Current best public score:** 0.94592
 
+I performed the data analysis and the entire feature engineering logic independently. The technical implementation of the features and the configuration of the training model were developed in collaboration with AI. The main goal of the project is training in data analysis and data science.
+
 ---
 
 ## Project Structure
