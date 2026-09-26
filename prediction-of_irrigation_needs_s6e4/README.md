@@ -4,6 +4,7 @@
 **Task:** Multiclass classification → `Low` / `Medium` / `High`  
 **Metric:** Balanced Accuracy  
 **Dataset:** 630,000 synthetic rows generated from a 10,000-row original  
+**Score:** 0.98092  
 **Result:** 🥇 **Top 0.7% — 29th out of 4,315 teams**
 
 ---
