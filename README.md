@@ -13,30 +13,31 @@ A personal collection of my solutions for [Kaggle Playground Series](https://www
 
 | Season | Competition | Target | Key Techniques | Score | Top % |
 |--------|-------------|--------|----------------|-------|-------|
-| S5E7 | Mushroom Classification | Binary classification | LightGBM, feature engineering | 0.982 | 34% |
+| S6E9 | [EV Purchase Prediction](predicting_electric_vehicle_purchases_s6e9/) | Binary classification (ROC-AUC) | Nested Target Encoding, LightGBM, Optuna | 0.94592 | TBD |
 
 *Table updates with each new competition.*
 
 ## Overview
 
-Each competition notebook covers the full analytical cycle:
+Each competition folder contains the full analytical pipeline:
 
-- **EDA** — understanding the data, distributions, missing values, correlations
-- **Feature Engineering** — creating and selecting meaningful features
-- **Modeling** — baseline models, hyperparameter tuning, cross-validation
-- **Evaluation** — metric analysis, error inspection, iteration
+- **EDA** — understanding the data, distributions, target analysis, key feature patterns
+- **Feature Engineering** — manual scores, interaction features, categorical encoding
+- **Modeling** — cross-validation, hyperparameter tuning, target encoding without leakage
+- **Evaluation** — metric tracking, experiment comparison, submission
 
 ## Repository Structure
 
 ```
-
+README.md
+predicting_electric_vehicle_purchases_s6e9/
+    eda.ipynb
+    features.ipynb
+    baseline.ipynb
+    data/
+        raw/
+        processed/
     README.md
-    kaggle_playground_s6e3
-        01_eda.ipynb
-        02_modeling.ipynb
-        data/
-            data_clean.parquet
-        README.md
 ```
 
 ## Author
