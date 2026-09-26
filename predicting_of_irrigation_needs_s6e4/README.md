@@ -12,15 +12,14 @@
 ## Project Structure
 
 ```
-prediction_of_irrigation_needs_s6e4/
+predicting_of_irrigation_needs_s6e4/
 ├── README.md
-└── notebooks/
-    ├── 01_EDA_and_Feature_Engineering.ipynb   # EDA + feature engineering (Denis)
-    ├── 02_XGBoost_Seed_Ensemble.ipynb         # XGBoost 3-seed ensemble (ML specialist)
-    └── 03_XGB_RealMLP_Ensemble.ipynb          # XGBoost + RealMLP stacking (ML specialist)
+├── eda_and_feature_enggineering.ipynb   # EDA + feature engineering (Denis)
+└── data/
+    └── submission/                      # Final submission files
 ```
 
-Data: download from the [competition page](https://www.kaggle.com/competitions/playground-series-s6e4/data) and place in `data/raw/`.
+ML notebooks (XGBoost ensemble, RealMLP stacking) were run on Kaggle and are available on the [competition page](https://www.kaggle.com/competitions/playground-series-s6e4). Raw data: download from the [competition page](https://www.kaggle.com/competitions/playground-series-s6e4/data).
 
 ---
 
