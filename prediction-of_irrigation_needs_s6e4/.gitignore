@@ -1,0 +1,7 @@
+**/data/
+**/.ipynb_checkpoints/
+*.pyc
+.DS_Store
+# SSH keys
+*wwq*
+id_ed25519*

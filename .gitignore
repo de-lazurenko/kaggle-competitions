@@ -3,3 +3,4 @@ data/raw/
 *.parquet
 __pycache__/
 .ipynb_checkpoints/
+.drawio
