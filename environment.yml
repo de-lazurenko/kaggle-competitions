@@ -12,27 +12,27 @@ dependencies:
   
   # Machine learning
   - scikit-learn
-  - imbalanced-learn        # SMOTE и работа с дисбалансом классов
+  - imbalanced-learn
   
   # Visualization
   - matplotlib
   - seaborn
-  - plotly                  # интерактивные графики
+  - plotly
   
   # Jupyter
   - jupyter
   - jupyterlab
   - ipykernel
-  - ipywidgets              # виджеты в ноутбуках
+  - ipywidgets
   
   # Utilities
-  - tqdm                    # прогресс-бары
-  - joblib                  # параллельные вычисления
-  - pyyaml                  # работа с yaml файлами
+  - tqdm
+  - joblib
+  - pyyaml
   
   - pip
   - pip:
-      # Gradient boosting — основные фреймворки
+      # Gradient boosting
       - lightgbm
       - xgboost
       - catboost
@@ -41,7 +41,13 @@ dependencies:
       - optuna
       
       # Feature engineering
-      - category-encoders    # target encoding, WoE и другие методы
+      - category-encoders
       
       # Kaggle API
       - kaggle
+
+      # EDA & interpretation
+      - shap
+      - ydata-profiling
+      - missingno
+      - phik
