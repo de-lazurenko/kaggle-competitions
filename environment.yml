@@ -48,6 +48,7 @@ dependencies:
 
       # EDA & interpretation
       - shap
+      - "setuptools<70"
       - ydata-profiling
       - missingno
       - phik
