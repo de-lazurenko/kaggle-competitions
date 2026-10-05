@@ -10,10 +10,10 @@ Binary classification (satisfied / not), metric **ROC-AUC**. Tabular data, ~700k
 .
 ├── README.md
 ├── 00_eda.ipynb                     # EDA
-├── 00_baseline.ipynb                # untuned LightGBM reference
-├── 00_features_experiments.ipynb    # feature experiments (E1-E15)
-├── 01_final_features.ipynb          # frozen feature set X_final
-├── modelling_notebooks/             # 02-09: models, features for NNs, stack
+├── 01_baseline.ipynb                # untuned LightGBM reference
+├── 02_features_experiments.ipynb    # feature experiments (E1-E15)
+├── 03_final_features.ipynb          # frozen feature set X_final
+├── modelling_notebooks/             # 04-11: models, features for NNs, stack
 ├── data/
 │   ├── raw/          # train.csv, test.csv, sample_submission.csv, orig_data.csv (original survey)
 │   ├── external/     # s6e10-tabpfn-member/  (public TabPFN predictions, goodpjw2008)
@@ -23,7 +23,7 @@ Binary classification (satisfied / not), metric **ROC-AUC**. Tabular data, ~700k
 └── archive/          # old drafts and backups (safe to delete)
 ```
 
-Each notebook is run from **its own folder** (Jupyter default): the root notebooks (`00_*`, `01`) read `data/...`, the ones in `modelling_notebooks/` read `../data`, `../preds`. Both layouts are resolved automatically; on Kaggle the paths fall back to `/kaggle/input` and `/kaggle/working`.
+Each notebook is run from **its own folder** (Jupyter default): the root notebooks (`00_*`–`03_*`) read `data/...`, the ones in `modelling_notebooks/` read `../data`, `../preds`. Both layouts are resolved automatically; on Kaggle the paths fall back to `/kaggle/input` and `/kaggle/working`.
 
 ## Pipeline
 
@@ -32,24 +32,24 @@ Each notebook is run from **its own folder** (Jupyter default): the root noteboo
 | # | Notebook | What it does | CV AUC |
 |---|----------|--------------|--------|
 | 00 | `00_eda` | Explores data quality, distributions and the link of every feature to the target; turns findings into modelling decisions | – |
-| 00 | `00_baseline` | Untuned LightGBM on the 21 raw columns: the reference score every later idea must beat | 0.95882 |
-| 00 | `00_features_experiments` | Tests ~15 feature ideas one at a time against the baseline; keeps frequency and target-encoding features | 0.96015 |
-| 01 | `01_final_features` | Builds and saves the frozen 45-column feature set `X_final` (frequencies, route profile, original-data model signal) | 0.96072 (tuned LightGBM) |
+| 01 | `01_baseline` | Untuned LightGBM on the 21 raw columns: the reference score every later idea must beat | 0.95882 |
+| 02 | `02_features_experiments` | Tests ~15 feature ideas one at a time against the baseline; keeps frequency and target-encoding features | 0.96015 |
+| 03 | `03_final_features` | Builds and saves the frozen 45-column feature set `X_final` (frequencies, route profile, original-data model signal) | 0.96072 (tuned LightGBM) |
 
 ### Modelling (`modelling_notebooks/`)
 
 | # | Notebook | What it does | CV AUC |
 |---|----------|--------------|--------|
-| 02 | `02_lgbm_optuna` | Tunes LightGBM with Optuna on `X_final`; saves its predictions for the stack | 0.96088 |
-| 03 | `03_cat_xgb` | CatBoost (two variants) and XGBoost on `X_final` | 0.96064 / 0.96062 / 0.96066 |
-| 04 | `04_mlp` | Own PyTorch neural network, built and tuned step by step | 0.96043 |
-| 05 | `05_stack` | Combines all models' out-of-fold predictions with logistic regression and evaluates the result with nested CV (**run last**) | 0.96178 |
-| 06 | `06_realmlp` | RealMLP (pytabkit) with the community recipe on `X_final`, 3 seeds | 0.96082 |
-| 07 | `07_tabpfn_import` | Imports public TabPFN predictions after verifying they match our folds | 0.96158 / 0.96089 |
-| 08 | `08_features_rich` | Builds `X_rich` (92 columns): digit features, delays, GPT-2 token keys, original-survey rates, second original-data model | – |
-| 09 | `09_realmlp_rich` | RealMLP on `X_rich` with in-fold target encoding, 3 seeds | 0.96129 |
+| 04 | `04_lgbm_optuna` | Tunes LightGBM with Optuna on `X_final`; saves its predictions for the stack | 0.96088 |
+| 05 | `05_cat_xgb` | CatBoost (two variants) and XGBoost on `X_final` | 0.96064 / 0.96062 / 0.96066 |
+| 06 | `06_mlp` | Own PyTorch neural network, built and tuned step by step | 0.96043 |
+| 07 | `07_realmlp` | RealMLP (pytabkit) with the community recipe on `X_final`, 3 seeds | 0.96082 |
+| 08 | `08_tabpfn_import` | Imports public TabPFN predictions after verifying they match our folds | 0.96158 / 0.96089 |
+| 09 | `09_features_rich` | Builds `X_rich` (92 columns): digit features, delays, GPT-2 token keys, original-survey rates, second original-data model | – |
+| 10 | `10_realmlp_rich` | RealMLP on `X_rich` with in-fold target encoding, 3 seeds | 0.96129 |
+| 11 | `11_stack` | Combines all models' out-of-fold predictions with logistic regression and evaluates the result with nested CV (**run last**) | 0.96178 |
 
-Numbering is chronological (the order in which the work was done), not execution order: the stack (`05`) is rerun after every new model. **Run order from scratch:** 00_eda → 00_baseline → 00_features_experiments → 01 → 02 → 03 → 04 → 06 → 07 → 08 → 09 → **05 last**. New notebooks continue from 10.
+Numbers follow the order in which the work was done, and the stack (`11`) is rerun after every new model. **Run order from scratch:** 00_eda → 01_baseline → 02_features_experiments → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → **11 last**. New notebooks continue from 12.
 
 ## How the notebooks are written
 
@@ -60,7 +60,7 @@ Every notebook follows the same layout, so any of them can be read on its own:
 3. **Comments in code** at non-obvious places (leakage guards, fold logic, scale conventions).
 4. **"Results & decisions" / "Summary" at the end:** the key numbers, what was accepted or rejected, and what goes to the next notebook.
 
-Long notebooks (`00_features_experiments`, `01_final_features`, `02_lgbm_optuna`) are stored without cell outputs; their key numbers are written in the markdown conclusions.
+Long notebooks (`02_features_experiments`, `03_final_features`, `04_lgbm_optuna`) are stored without cell outputs; their key numbers are written in the markdown conclusions.
 
 ## Results
 
@@ -87,7 +87,7 @@ Final two Kaggle submissions are chosen by nested CV, not by the public LB (nois
 
 ## Environment
 
-conda `kaggle-playground` (Python 3.12): lightgbm, xgboost, catboost, optuna, pytabkit, tiktoken (for 08), scikit-learn. Hardware: MacBook Air M4 (CPU), home PC RTX 3070 Ti, Kaggle GPU.
+conda `kaggle-playground` (Python 3.12): lightgbm, xgboost, catboost, optuna, pytabkit, tiktoken (for 09), scikit-learn. Hardware: MacBook Air M4 (CPU), home PC RTX 3070 Ti, Kaggle GPU.
 
 ## Git hygiene
 
