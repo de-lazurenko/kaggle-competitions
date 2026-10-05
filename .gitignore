@@ -1,7 +1,18 @@
-data/raw/
+# data and predictions (large, reproducible)
+data/
+preds/
+submissions/
 *.csv
 *.parquet
+*.npy
+*.pkl
+
+# tool output
+catboost_info/
+lightning_logs/
 __pycache__/
 .ipynb_checkpoints/
-.drawio
+
+# misc
+*.drawio
 .DS_Store
