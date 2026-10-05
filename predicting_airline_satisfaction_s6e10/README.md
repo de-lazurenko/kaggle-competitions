@@ -20,7 +20,7 @@ Binary classification (satisfied / not), metric **ROC-AUC**. Tabular data, ~700k
 │   └── processed/    # X_final_*, X_rich_*, y_train (parquet/csv)
 ├── preds/            # OOF + test predictions per model (oof_*.npy, test_*.npy), fold checkpoints, stack submissions
 ├── submissions/      # files actually sent to Kaggle
-└── archive/          # old drafts and backups (safe to delete)
+└── archive/          # old drafts and backups
 ```
 
 Each notebook is run from **its own folder** (Jupyter default): the root notebooks (`00_*`–`03_*`) read `data/...`, the ones in `modelling_notebooks/` read `../data`, `../preds`. Both layouts are resolved automatically; on Kaggle the paths fall back to `/kaggle/input` and `/kaggle/working`.
