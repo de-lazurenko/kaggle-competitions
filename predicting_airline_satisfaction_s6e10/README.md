@@ -27,20 +27,27 @@ Each notebook is run from **its own folder** (Jupyter default): the root noteboo
 
 ## Pipeline
 
-| # | Notebook | Purpose | Reads | Writes | CV AUC |
-|---|----------|---------|-------|--------|--------|
-| 00 | `00_eda` | EDA | raw | – | – |
-| 00 | `00_baseline` | LGBM baseline | raw | – | 0.95882 |
-| 00 | `00_features_experiments` | feature experiments (E1–E15) | raw | X_train/X_test.csv | ~0.96015 |
-| 01 | `01_final_features` | final 45-column set `X_final` (frequencies, route-profile, orig_prob/logit) | raw, orig | X_final_*.parquet | – |
-| 02 | `02_lgbm_optuna` | tuned LightGBM (Kaggle, Optuna) | X_final | oof/test_lgbm_tuned_final | 0.96088 |
-| 03 | `03_cat_xgb` | CatBoost v1/v2, XGBoost | X_final | oof/test_cat_v1, cat_v2, xgb | 0.96064 / 0.96062 / 0.96066 |
-| 04 | `04_mlp` | own MLP | X_final | oof/test_mlp | 0.96043 |
-| 05 | `05_stack` | nested-CV stack, logistic regression (C=10) on logits (**run last**) | all preds | submission_stack_{N}models.csv | 0.96178 |
-| 06 | `06_realmlp` | RealMLP (pytabkit), 3 seeds | X_final | oof/test_realmlp[_avg] | 0.96082 |
-| 07 | `07_tabpfn_import` | import of public TabPFN members | data/external | oof/test_tabpfn_avg, tabpfn_raw_avg | 0.96158 / 0.96089 |
-| 08 | `08_features_rich` | `X_rich` (92 columns: digits, delays, GPT-2 token keys, original-survey rates) | raw, orig, X_final | X_rich_*.parquet | – |
-| 09 | `09_realmlp_rich` | RealMLP on X_rich + in-fold target encoding, 3 seeds | X_rich | oof/test_realmlp_rich[_avg] | 0.96129 |
+### Analysis and features (root folder)
+
+| # | Notebook | What it does | CV AUC |
+|---|----------|--------------|--------|
+| 00 | `00_eda` | Explores data quality, distributions and the link of every feature to the target; turns findings into modelling decisions | – |
+| 00 | `00_baseline` | Untuned LightGBM on the 21 raw columns: the reference score every later idea must beat | 0.95882 |
+| 00 | `00_features_experiments` | Tests ~15 feature ideas one at a time against the baseline; keeps frequency and target-encoding features | 0.96015 |
+| 01 | `01_final_features` | Builds and saves the frozen 45-column feature set `X_final` (frequencies, route profile, original-data model signal) | 0.96072 (tuned LightGBM) |
+
+### Modelling (`modelling_notebooks/`)
+
+| # | Notebook | What it does | CV AUC |
+|---|----------|--------------|--------|
+| 02 | `02_lgbm_optuna` | Tunes LightGBM with Optuna on `X_final`; saves its predictions for the stack | 0.96088 |
+| 03 | `03_cat_xgb` | CatBoost (two variants) and XGBoost on `X_final` | 0.96064 / 0.96062 / 0.96066 |
+| 04 | `04_mlp` | Own PyTorch neural network, built and tuned step by step | 0.96043 |
+| 05 | `05_stack` | Combines all models' out-of-fold predictions with logistic regression and evaluates the result with nested CV (**run last**) | 0.96178 |
+| 06 | `06_realmlp` | RealMLP (pytabkit) with the community recipe on `X_final`, 3 seeds | 0.96082 |
+| 07 | `07_tabpfn_import` | Imports public TabPFN predictions after verifying they match our folds | 0.96158 / 0.96089 |
+| 08 | `08_features_rich` | Builds `X_rich` (92 columns): digit features, delays, GPT-2 token keys, original-survey rates, second original-data model | – |
+| 09 | `09_realmlp_rich` | RealMLP on `X_rich` with in-fold target encoding, 3 seeds | 0.96129 |
 
 Numbering is chronological (the order in which the work was done), not execution order: the stack (`05`) is rerun after every new model. **Run order from scratch:** 00_eda → 00_baseline → 00_features_experiments → 01 → 02 → 03 → 04 → 06 → 07 → 08 → 09 → **05 last**. New notebooks continue from 10.
 
