@@ -31,18 +31,18 @@ Each notebook is run from **its own folder** (Jupyter default): the root noteboo
 |---|----------|---------|-------|--------|--------|
 | 00 | `00_eda` | EDA | raw | – | – |
 | 00 | `00_baseline` | LGBM baseline | raw | – | 0.95882 |
-| 00 | `00_features_experiments` | feature experiments (E1–E9) | raw | X_train/X_test.csv | ~0.96015 |
+| 00 | `00_features_experiments` | feature experiments (E1–E15) | raw | X_train/X_test.csv | ~0.96015 |
 | 01 | `01_final_features` | final 45-column set `X_final` (frequencies, route-profile, orig_prob/logit) | raw, orig | X_final_*.parquet | – |
 | 02 | `02_lgbm_optuna` | tuned LightGBM (Kaggle, Optuna) | X_final | oof/test_lgbm_tuned_final | 0.96088 |
 | 03 | `03_cat_xgb` | CatBoost v1/v2, XGBoost | X_final | oof/test_cat_v1, cat_v2, xgb | 0.96064 / 0.96062 / 0.96066 |
 | 04 | `04_mlp` | own MLP | X_final | oof/test_mlp | 0.96043 |
+| 05 | `05_stack` | nested-CV stack, logistic regression (C=10) on logits (**run last**) | all preds | submission_stack_{N}models.csv | 0.96178 |
 | 06 | `06_realmlp` | RealMLP (pytabkit), 3 seeds | X_final | oof/test_realmlp[_avg] | 0.96082 |
 | 07 | `07_tabpfn_import` | import of public TabPFN members | data/external | oof/test_tabpfn_avg, tabpfn_raw_avg | 0.96158 / 0.96089 |
 | 08 | `08_features_rich` | `X_rich` (92 columns: digits, delays, GPT-2 token keys, original-survey rates) | raw, orig, X_final | X_rich_*.parquet | – |
 | 09 | `09_realmlp_rich` | RealMLP on X_rich + in-fold target encoding, 3 seeds | X_rich | oof/test_realmlp_rich[_avg] | 0.96129 |
-| 05 | `05_stack` | nested-CV stack, logistic regression (C=10) on logits | all preds | submission_stack_{N}models.csv | 0.96178 |
 
-Numbering is chronological, not execution order. **Run order from scratch:** 00_eda → 00_baseline → 00_features_experiments → 01 → 02 → 03 → 04 → 06 → 07 → 08 → 09 → **05 last**. New notebooks continue from 10.
+Numbering is chronological (the order in which the work was done), not execution order: the stack (`05`) is rerun after every new model. **Run order from scratch:** 00_eda → 00_baseline → 00_features_experiments → 01 → 02 → 03 → 04 → 06 → 07 → 08 → 09 → **05 last**. New notebooks continue from 10.
 
 ## How the notebooks are written
 
@@ -53,7 +53,7 @@ Every notebook follows the same layout, so any of them can be read on its own:
 3. **Comments in code** at non-obvious places (leakage guards, fold logic, scale conventions).
 4. **"Results & decisions" / "Summary" at the end:** the key numbers, what was accepted or rejected, and what goes to the next notebook.
 
-Long notebooks (`00_features_experiments`, `02_lgbm_optuna`, `01_final_features`) are stored without cell outputs; their key numbers are written in the markdown conclusions.
+Long notebooks (`00_features_experiments`, `01_final_features`, `02_lgbm_optuna`) are stored without cell outputs; their key numbers are written in the markdown conclusions.
 
 ## Results
 
