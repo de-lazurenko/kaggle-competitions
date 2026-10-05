@@ -4,51 +4,61 @@ channels:
   - defaults
 dependencies:
   - python=3.12
-  
+
   # Core data
   - numpy
   - pandas
+  - polars
   - scipy
-  
+  - statsmodels
+  - pyarrow
+
   # Machine learning
   - scikit-learn
   - imbalanced-learn
-  
+
   # Visualization
   - matplotlib
   - seaborn
   - plotly
-  
+
   # Jupyter
   - jupyter
   - jupyterlab
   - ipykernel
   - ipywidgets
-  
+  - nbformat
+  - nbconvert
+
   # Utilities
   - tqdm
   - joblib
   - pyyaml
-  
+
   - pip
   - pip:
       # Gradient boosting
       - lightgbm
       - xgboost
       - catboost
-      
+
+      # Neural networks
+      - torch
+      - pytabkit
+
       # Hyperparameter tuning
       - optuna
-      
+
       # Feature engineering
       - category-encoders
-      
-      # Kaggle API
-      - kaggle
+      - tiktoken
 
       # EDA & interpretation
-      - shap
-      - "setuptools<70"
       - ydata-profiling
       - missingno
       - phik
+      - shap
+      - "setuptools<70"
+
+      # Kaggle API
+      - kaggle
