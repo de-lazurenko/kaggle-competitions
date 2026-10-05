@@ -9,17 +9,21 @@ Binary classification (satisfied / not), metric **ROC-AUC**. Tabular data, ~700k
 ```
 .
 ├── README.md
-├── notebooks/        # the whole pipeline, numbered in the order the work was done
+├── 00_eda.ipynb                     # EDA
+├── 00_baseline.ipynb                # untuned LightGBM reference
+├── 00_features_experiments.ipynb    # feature experiments (E1-E15)
+├── 01_final_features.ipynb          # frozen feature set X_final
+├── modelling_notebooks/             # 02-09: models, features for NNs, stack
 ├── data/
 │   ├── raw/          # train.csv, test.csv, sample_submission.csv, orig_data.csv (original survey)
 │   ├── external/     # s6e10-tabpfn-member/  (public TabPFN predictions, goodpjw2008)
 │   └── processed/    # X_final_*, X_rich_*, y_train (parquet/csv)
 ├── preds/            # OOF + test predictions per model (oof_*.npy, test_*.npy), fold checkpoints, stack submissions
 ├── submissions/      # files actually sent to Kaggle
-└── archive/          # old drafts and a backup of the layout before reorganisation (safe to delete)
+└── archive/          # old drafts and backups (safe to delete)
 ```
 
-All notebooks are run **from `notebooks/`** (Jupyter default). Paths resolve to `../data`, `../preds` automatically; on Kaggle they fall back to `/kaggle/input` and `/kaggle/working`.
+Each notebook is run from **its own folder** (Jupyter default): the root notebooks (`00_*`, `01`) read `data/...`, the ones in `modelling_notebooks/` read `../data`, `../preds`. Both layouts are resolved automatically; on Kaggle the paths fall back to `/kaggle/input` and `/kaggle/working`.
 
 ## Pipeline
 
