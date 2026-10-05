@@ -8,7 +8,6 @@ dependencies:
   # Core data
   - numpy
   - pandas
-  - polars
   - scipy
   - statsmodels
   - pyarrow
