@@ -27,7 +27,7 @@ flowchart TD
     classDef rej fill:#f2f1ec,stroke:#9a9890,stroke-dasharray:4 3,color:#52514e
     classDef pend fill:#fdf0cc,stroke:#eda100,color:#222
 
-    subgraph FEAT["Features · LightGBM CV"]
+    subgraph FEAT["Stage 1 · Features (gain = LightGBM CV)"]
         B01["01 Baseline LightGBM · 0.95885"]:::kept
         B01 -->|"+0.00059"| E8["02·E8 distance frequency"]:::kept
         E8 -->|"+0.00020"| E9["02·E9 distance × travel-type frequency"]:::kept
@@ -35,7 +35,7 @@ flowchart TD
         E12 -->|"+0.00057"| X03["03 X_final: route profile,<br/>original-data model · 0.96072"]:::kept
     end
 
-    subgraph MOD["Models · gain in the stack's nested CV when added"]
+    subgraph MOD["Stage 2 · Models (gain = stack nested CV when the model is added)"]
         M04["04 LightGBM Optuna · 0.96088<br/>stack start 0.96090"]:::kept
         M04 -->|"+0.00004"| C1["05 CatBoost v1"]:::kept
         C1 -->|"+0.00001"| C2["05 CatBoost v2"]:::kept
@@ -60,9 +60,19 @@ flowchart TD
     M10 --> S11
     M08i --> S11
     S11["11 Stack · nested CV 0.96178 · LB 0.96132"]:::big
+
+    style FEAT fill:#ffffff,stroke:#2a78d6,stroke-width:1px,color:#2a78d6
+    style MOD fill:#ffffff,stroke:#2a78d6,stroke-width:1px,color:#2a78d6
 ```
 
-Green = kept, bold = carries the stack, grey dashed = tested and rejected, yellow = pending.
+| On the map | Meaning |
+|---|---|
+| Blue frame | stage: features first, then models; the gains in the two stages are measured differently |
+| Green box | step kept in the final solution |
+| Green box with a thick border | the two members that carry the stack (TabPFN, RealMLP-rich) |
+| Grey dashed box | idea tested and rejected (gain ≤ ±0.0001) |
+| Yellow box | still running |
+| Number on an arrow | gain from that step |
 
 ## Notebooks
 
