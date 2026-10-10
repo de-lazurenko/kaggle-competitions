@@ -15,9 +15,9 @@ Solutions for [Kaggle Playground Series](https://www.kaggle.com/competitions?hos
 | Season | Competition | Target (metric) | Key techniques | Score | Result |
 |--------|-------------|-----------------|----------------|-------|--------|
 | S6E10 | [Airline Passenger Satisfaction](predicting_airline_satisfaction_s6e10/) | Binary (ROC-AUC) | Route-profile and original-data features, GBDT + RealMLP + TabPFN stack, nested CV | 0.96132 | in progress |
-| S6E9 | [EV Purchase Prediction](predicting_electric_vehicle_purchases_s6e9/) | Binary (ROC-AUC) | Nested target encoding, LightGBM, Optuna | 0.94592 | Top 36% (solo) |
-| S6E4 | [Irrigation Need Prediction](predicting_of_irrigation_needs_s6e4/) | Multiclass (Balanced Accuracy) | XGBoost + RealMLP stacking, threshold optimisation, synthetic-artifact features | 0.98092 | 29th / 4,315 — Top 0.7% |
-| S6E3 | [Customer Churn Prediction](predicting_of_cusmoters_churn_s6e3/) | Binary (ROC-AUC) | Multi-seed ensemble, GNN, domain-driven feature engineering | 0.91822 | ~166th / 4,142 — Top 4% |
+| S6E9 | [EV Purchase Prediction](predicting_electric_vehicle_purchases_s6e9/) | Binary (ROC-AUC) | Nested target encoding, LightGBM, Optuna | 0.94592 |  1,272 / 3,575 — Top 36% |
+| S6E4 | [Irrigation Need Prediction](predicting_of_irrigation_needs_s6e4/) | Multiclass (Balanced Accuracy) | XGBoost + RealMLP stacking, threshold optimisation, synthetic-artifact features | 0.98092 | 29 / 4,315 — Top 0.7% |
+| S6E3 | [Customer Churn Prediction](predicting_of_cusmoters_churn_s6e3/) | Binary (ROC-AUC) | Multi-seed ensemble, GNN, domain-driven feature engineering | 0.91822 | 179 / 4,142 — Top 4% |
 
 ## Inside a competition folder
 
