@@ -24,7 +24,7 @@ My own pipeline end to end: features, validation, models and stacking (with an A
 
 ### Team and assisted
 
-My part was EDA and feature engineering; the final models came from a teammate or from public notebooks.
+My part was EDA and feature engineering; the final models came from a teammate or improvements through public notebooks.
 
 | Season | Competition | Target (metric) | Key techniques | Score | Result | Setup |
 |--------|-------------|-----------------|----------------|-------|--------|-------|
