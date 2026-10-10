@@ -1,11 +1,21 @@
 # Kaggle Playground Series S6E4 — Predicting Irrigation Need
 
-**Competition:** [PS S6E4 — Predicting Irrigation Need](https://www.kaggle.com/competitions/playground-series-s6e4)  
-**Task:** Multiclass classification → `Low` / `Medium` / `High`  
-**Metric:** Balanced Accuracy  
-**Dataset:** 630,000 synthetic rows generated from a 10,000-row original  
-**Score:** 0.98092  
-**Result:** 🥇 **Top 0.7% — 29th out of 4,315 teams**
+| | |
+|---|---|
+| **Competition** | [PS S6E4 — Predicting Irrigation Need](https://www.kaggle.com/competitions/playground-series-s6e4) |
+| **Task** | Multiclass classification → `Low` / `Medium` / `High` |
+| **Metric** | Balanced Accuracy |
+| **Dataset** | 630,000 synthetic rows generated from a 10,000-row original |
+| **Score** | 0.98092 |
+| **Result** | 🥇 **Top 0.7% — 29th out of 4,315 teams** |
+| **Setup** | Team: EDA and features by me, ML pipeline by a senior ML engineer |
+
+---
+
+## Role Split
+
+**Denis** — EDA and feature engineering (notebook `01`, independent work).  
+**ML specialist** — XGBoost and RealMLP training pipelines, cross-validation, ensembling (notebooks `02`–`05`). Denis contributed the threshold optimization logic on the ML side.
 
 ---
 
@@ -14,19 +24,27 @@
 ```
 predicting_of_irrigation_needs_s6e4/
 ├── README.md
-├── eda_and_feature_enggineering.ipynb   # EDA + feature engineering (Denis)
-└── data/
-    └── submission/                      # Final submission files
+├── 01_eda_and_feature_engineering.ipynb   # EDA + feature engineering (Denis)
+└── modelling/                             # teammate's notebooks
+    ├── 02_fold_creation.ipynb             # shared folds for all models
+    ├── 03_adversarial_validation.ipynb    # synthetic vs original data
+    ├── 04_xgb_seed_ensemble.ipynb         # XGBoost × 3 seeds (intermediate submission)
+    └── 05_xgb_realmlp_stack.ipynb         # XGBoost + RealMLP stack (final submission)
 ```
 
-ML notebooks (XGBoost ensemble, RealMLP stacking) were run on Kaggle and are available on the [competition page](https://www.kaggle.com/competitions/playground-series-s6e4). Raw data: download from the [competition page](https://www.kaggle.com/competitions/playground-series-s6e4/data).
+Raw data: download from the [competition page](https://www.kaggle.com/competitions/playground-series-s6e4/data). The XGBoost and RealMLP training notebooks (3 seeds each) were run on Kaggle and are not included; `04` and `05` load their saved predictions.
 
----
+### Notebooks
 
-## Role Split
+| # | Notebook | What it does | OOF Balanced Accuracy |
+|---|---|---|---|
+| 01 | `01_eda_and_feature_engineering` | EDA, synthetic artifacts, 8 engineered features | – |
+| 02 | `modelling/02_fold_creation` | 10 folds × 3 seeds, stratified by KMeans clusters on PCA | – |
+| 03 | `modelling/03_adversarial_validation` | Can a model tell synthetic rows from the original ones? Yes (AUC 0.688) | – |
+| 04 | `modelling/04_xgb_seed_ensemble` | Mean of 3 XGBoost seeds + class weights | 0.97894 → 0.98010 |
+| 05 | `modelling/05_xgb_realmlp_stack` | Logistic-regression stack of XGBoost × 3 + RealMLP × 3 + class weights | 0.97811 → **0.98100** (LB 0.98092) |
 
-**Denis** — EDA and feature engineering (notebook 01, independent work).  
-**ML specialist** — XGBoost and RealMLP training pipelines, cross-validation, ensembling. Denis contributed the threshold optimization logic on the ML side.
+The teammate's notebooks are kept as they ran; only empty cells, `!ls` calls, duplicates and commented-out code were removed, and a short header was added to each.
 
 ---
 
@@ -40,7 +58,7 @@ ML notebooks (XGBoost ensemble, RealMLP stacking) were run on Kaggle and are ava
 | `Mulching_Used` | Categorical | Strongest categorical signal (Chi² = 28,569) |
 | `Crop_Growth_Stage`, `Season` | Categorical | Key groupby dimensions |
 | `Soil_pH`, `Organic_Carbon`, `Electrical_Conductivity` | Numeric | Suspiciously low unique counts → synthetic artifact |
-| `Irrigation_Requirement` | Target | Low (58.7%) / Medium (37.9%) / High (3.3%) |
+| `Irrigation_Need` | Target | Low (58.7%) / Medium (37.9%) / High (3.3%) |
 
 ---
 
@@ -117,9 +135,13 @@ Snap features (`*_snap`, `*_snap_diff`) — tested on 4 columns, showed 0% non-z
 
 *This section is based on the approach designed and implemented by the ML specialist.*
 
+### Validation
+
+All models share the folds from `02`: 10 folds, stratified not by the target but by 32 KMeans clusters on a PCA of the features, so every fold covers the whole feature space. `03` shows that the synthetic data differs from the original 10k rows (adversarial AUC 0.688).
+
 ### Models
 
-**XGBoost** — trained with 3 independent random seeds (0, 1, 2), stratified k-fold cross-validation. Out-of-fold (OOF) predictions saved for each seed.
+**XGBoost** — trained with 3 independent random seeds (0, 1, 2) on the shared folds. Out-of-fold (OOF) predictions saved for each seed.
 
 **RealMLP** — neural network optimized for tabular data, same seed × fold structure as XGBoost.
 
@@ -139,7 +161,14 @@ Standard `argmax` on probabilities doesn't handle class imbalance well when the 
 - Compare against cost-sensitive argmax (scaling class probabilities by learned weights)
 - Apply the better-performing method to test predictions
 
-This step gave a measurable improvement over the default argmax baseline on OOF Balanced Accuracy.
+Cost-sensitive argmax won in both submissions:
+
+| Submission | argmax | with class weights | Weights (Low / Medium / High) |
+|---|---|---|---|
+| `04` XGBoost × 3 seeds | 0.97894 | 0.98010 | 0.396 / 0.494 / 1.474 |
+| `05` XGBoost + RealMLP stack | 0.97811 | **0.98100** | 0.2 / 0.2 / 5.0 |
+
+The stack is *worse* than plain XGBoost with argmax but better after the weights, most likely because its probabilities separate the rare `High` class better and the weights turn that into correct decisions. The meta-model and the weights are fitted on the same OOF rows they are scored on, so 0.98100 is slightly optimistic; the public LB (0.98092) confirms it.
 
 ---
 
@@ -170,3 +199,9 @@ Key drivers of the result:
 | RealMLP | Neural network for tabular data |
 | scipy | `cKDTree` (snap feature testing), statistical tests |
 | matplotlib, seaborn | EDA visualization |
+
+---
+
+## Acknowledgements
+
+Thanks to my teammate **prashantlimba** for the ML pipeline and for a great collaboration in this competition.
