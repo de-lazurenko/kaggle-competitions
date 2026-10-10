@@ -1,6 +1,7 @@
 # Kaggle Playground Series — Solutions & Experiments
 
-Solutions for [Kaggle Playground Series](https://www.kaggle.com/competitions?hostSegment=playground) competitions on tabular data. The main goal is practice: analysing data, engineering features, and learning to think through a dataset before touching a model. Machine learning is a second, growing focus.
+Solutions for [Kaggle Playground Series](https://www.kaggle.com/competitions?hostSegment=playground) competitions on tabular data. 
+The main goal is practice: analysing data, engineering features, and learning to think through a dataset before touching a model. Machine learning is a second, growing focus.
 
 ## How the work is split
 
