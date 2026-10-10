@@ -5,16 +5,16 @@ Predict whether a passenger is satisfied (binary, metric **ROC-AUC**). ~700k syn
 | Final result | |
 |---|---|
 | Stack of 10 models (logistic regression on logits) | nested CV **0.96178**, public LB **0.96132** |
-| Position | 124th of 734 (2026-10-05) |
-| Submissions | main `submission_stack_10models.csv`, backup `submission_stack_8models.csv` (CV 0.96168, LB 0.96124) |
-| Status (2026-10-10) | stack frozen; notebook `20` (own TabPFN, full context) pending. Deadline 31 Oct 2026 |
+| Position | 124th of 734 on the public LB (2026-10-05); final place after the private LB opens on 31 Oct |
+| Final submissions (selected on Kaggle) | main: 10-model stack (`submissions/final_main_stack_10models.csv`); backup: 8-model stack built from earlier member versions (`submissions/final_backup_stack_8models.csv`, CV 0.96168, LB 0.96124) |
+| Status (2026-10-10) | stack frozen: all experiments finished. Deadline 31 Oct 2026 |
 
 ## Key takeaways
 
 1. **Only information about *other rows* moved the score:** frequencies and target encoding of the route, a model trained on the original survey, and in-context models (TabPFN). New functions of a row's own columns never helped.
 2. **TabPFN and RealMLP-rich carry the stack.** Removing TabPFN costs −0.00015, RealMLP-rich −0.00007, any other member ≤ 0.00001.
 3. **Stacking pays only with learned weights:** logistic regression +0.00020 over the best single model, the plain mean −0.00014.
-4. **After the 10-model stack, eleven more ideas** (recipes, aux features, teachers, TabM, own TabPFN, window encodings) all landed within ±0.0001.
+4. **After the 10-model stack, eleven more ideas** (recipes, aux features, teachers, TabM, own TabPFN with up to 420k context, window encodings) all landed within ±0.0001.
 
 ## Method map
 
@@ -25,7 +25,6 @@ flowchart TD
     classDef kept fill:#d9f2e3,stroke:#1baf7a,color:#222
     classDef big fill:#b5e8cb,stroke:#0f7a52,stroke-width:3px,color:#222
     classDef rej fill:#f2f1ec,stroke:#9a9890,stroke-dasharray:4 3,color:#52514e
-    classDef pend fill:#fdf0cc,stroke:#eda100,color:#222
 
     subgraph FEAT["Stage 1 · Features (gain = LightGBM CV)"]
         B01["01 Baseline LightGBM · 0.95885"]:::kept
@@ -51,7 +50,7 @@ flowchart TD
         XG -.-> R1["21 window target rates"]:::rej
         M10 -.-> R2["12–18, 22 recipes, aux features,<br/>teachers, TabM, recipe mix"]:::rej
         M08 -.-> R3["19 own TabPFN, 200k context"]:::rej
-        R3 -.-> P20["20 own TabPFN, full context"]:::pend
+        R3 -.-> P20["20 own TabPFN, 420k context"]:::rej
 
         XG --> S11
         M10 --> S11
@@ -71,7 +70,6 @@ flowchart TD
 | Green box | step kept in the final solution |
 | Green box with a thick border | the two members that carry the stack (TabPFN, RealMLP-rich) |
 | Grey dashed box | idea tested and rejected (gain ≤ ±0.0001) |
-| Yellow box | still running |
 | Number on an arrow | gain from that step |
 
 ## Notebooks
@@ -103,7 +101,7 @@ flowchart TD
 | 16→17 | Teacher models trained on the original survey | ≤ +0.00009, mini-stack ≤ +0.00003 | rejected |
 | 18 | Average of three RealMLP-rich variants | stack +0.00002 | rejected |
 | 19 | Own TabPFN-3.5, 200k context | mini-stack ≈ 0 | rejected |
-| 20 | Own TabPFN, full context (runs on Kaggle) | – | pending |
+| 20 | Own TabPFN, 420k context (runs on Kaggle) | OOF 0.96090; stack −0.00001 | rejected |
 | 21 | XGBoost + window target rates | −0.00002 | rejected |
 | 22 | Aux features v2: multiclass rating probabilities | +0.00006 | rejected |
 
@@ -113,7 +111,7 @@ Each notebook opens with a table (input, output, runtime, result), explains the 
 
 - **Data:** competition files and `orig_data.csv` in `data/raw/`; public TabPFN predictions (goodpjw2008) in `data/external/s6e10-tabpfn-member/`. Generated features go to `data/processed/`, predictions to `preds/` (`oof_<name>.npy`, `test_<name>.npy`, per-fold checkpoints). These folders are not in git.
 - **Paths:** notebooks run from their own folder; `../data` and Kaggle paths are resolved automatically.
-- **Environment:** conda `kaggle-playground`, versions pinned in `../environment.yml`. Notebooks 04–11 were run on a MacBook Air M4 (CPU), 12–22 on an RTX 3070 Ti; results agree within seed noise.
+- **Environment:** conda `kaggle-playground`, versions pinned in `../environment.yml`. Notebooks 04–11 were run on a MacBook Air M4 (CPU); 00–03, 12–19 and 21–22 on a PC with an RTX 3070 Ti; 20 on Kaggle (2 × T4). Results agree within seed noise (e.g. baseline 0.95882 on the Mac, 0.95885 on the PC).
 - **Validation:** 5-fold `StratifiedKFold(shuffle=True, random_state=42)` everywhere. A new idea is accepted only if the stack's nested CV gains ≥ +0.00003 and is positive on ≥ 4 of 5 folds. Final submissions are chosen by CV, not by the public LB (noise ±0.0003–0.0005).
 
 ## Credits
