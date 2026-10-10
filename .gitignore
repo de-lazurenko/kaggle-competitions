@@ -17,3 +17,6 @@ __pycache__/
 # misc
 *.drawio
 .DS_Store
+
+# personal notes (not for the public repo)
+knowledge/
