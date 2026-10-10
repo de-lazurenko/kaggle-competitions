@@ -32,7 +32,7 @@ flowchart TD
         B01 -->|"+0.00059"| E8["02·E8 distance frequency"]:::kept
         E8 -->|"+0.00020"| E9["02·E9 distance × travel-type frequency"]:::kept
         E9 -->|"+0.00051"| E12["02·E12 in-fold TE of distance · 0.96015"]:::kept
-        E12 -->|"+0.00057"| X03["03 X_final: route profile,<br/>original-data model · 0.96072"]:::kept
+        E12 -->|"+0.00032"| X03["03 X_final: route profile (+0.00020),<br/>original-data model (+0.00011) · 0.96048"]:::kept
     end
 
     subgraph MOD["Stage 2 · Models (gain = stack nested CV when the model is added)"]
@@ -59,7 +59,7 @@ flowchart TD
         S11["11 Stack · nested CV 0.96178 · LB 0.96132"]:::big
     end
 
-    X03 -->|"+0.00016 tuning"| M04
+    X03 -->|"+0.00040 tuning"| M04
 
     style FEAT fill:none,stroke:#5b8fd6,stroke-width:1px,color:#5b8fd6
     style MOD fill:none,stroke:#5b8fd6,stroke-width:1px,color:#5b8fd6
@@ -81,9 +81,9 @@ flowchart TD
 | # | Notebook | What it does | CV AUC |
 |---|---|---|---|
 | 00 | `00_eda` | Data quality, distributions, every feature vs target → modelling decisions | – |
-| 01 | `01_baseline` | Untuned LightGBM on the 21 raw columns: the reference | 0.95882 |
+| 01 | `01_baseline` | Untuned LightGBM on the 21 raw columns: the reference | 0.95885 |
 | 02 | `02_features_experiments` | ~15 feature ideas one at a time; keeps route frequencies and route target encoding | 0.96015 |
-| 03 | `03_final_features` | Frozen 45-column `X_final` (frequencies, route profile, original-data model) | 0.96072 |
+| 03 | `03_final_features` | Frozen 45-column `X_final` (frequencies, route profile, original-data model) + ablation of each block | 0.96048 (0.96072 tuned) |
 | 04 | `modelling_notebooks/04_lgbm_optuna` | LightGBM tuned with Optuna | 0.96088 |
 | 05 | `…/05_cat_xgb` | CatBoost (2 variants), XGBoost | 0.96064 / 0.96066 |
 | 06 | `…/06_mlp` | Own PyTorch MLP | 0.96043 |
