@@ -4,7 +4,7 @@
 **Task:** Binary classification → `Yes` / `No` (will the customer cancel?)  
 **Metric:** ROC-AUC  
 **Dataset:** ~594,000 rows, telecom customer data  
-**Result:** Score **0.91822** — ~166th / 4,142 — Top 4%
+**Result:** Score **0.91822** — 179th / 4,142 — Top 4%
 
 > My first Kaggle Playground competition. Focused on learning the full EDA pipeline, building my first engineered features, and understanding the end-to-end ML workflow.
 
