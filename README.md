@@ -13,12 +13,23 @@ The main goal is practice: analysing data, engineering features, and learning to
 
 ## Competitions
 
+### Solo
+
+My own pipeline end to end: features, validation, models and stacking (with an AI assistant; public sources credited in each README).
+
 | Season | Competition | Target (metric) | Key techniques | Score | Result |
 |--------|-------------|-----------------|----------------|-------|--------|
 | S6E10 | [Airline Passenger Satisfaction](predicting_airline_satisfaction_s6e10/) | Binary (ROC-AUC) | Route frequency & target encoding, original-data model, TabPFN + RealMLP stack (logistic regression), nested CV | 0.96132 (public LB) | in progress |
-| S6E9 | [EV Purchase Prediction](predicting_electric_vehicle_purchases_s6e9/) | Binary (ROC-AUC) | Reverse-engineered scoring formula (buy / worry scores), nested target encoding, LightGBM + Optuna | 0.94592 |  1,272 / 3,575 — Top 36% |
-| S6E4 | [Irrigation Need Prediction](predicting_of_irrigation_needs_s6e4/) | Multiclass (Balanced Accuracy) | XGBoost + RealMLP stacking, threshold optimisation, synthetic-artifact features | 0.98092 | 29 / 4,315 — Top 0.7% |
-| S6E3 | [Customer Churn Prediction](predicting_of_cusmoters_churn_s6e3/) | Binary (ROC-AUC) | Multi-seed ensemble, GNN, domain-driven feature engineering | 0.91822 | 179 / 4,142 — Top 4% |
+| S6E9 | [EV Purchase Prediction](predicting_electric_vehicle_purchases_s6e9/) | Binary (ROC-AUC) | Reverse-engineered scoring formula (buy / worry scores), nested target encoding, LightGBM + Optuna | 0.94592 | 1,272 / 3,575 — Top 36% |
+
+### Team and assisted
+
+My part was EDA and feature engineering; the final models came from a teammate or from public notebooks.
+
+| Season | Competition | Target (metric) | Key techniques | Score | Result | Setup |
+|--------|-------------|-----------------|----------------|-------|--------|-------|
+| S6E4 | [Irrigation Need Prediction](predicting_of_irrigation_needs_s6e4/) | Multiclass (Balanced Accuracy) | XGBoost + RealMLP stacking, threshold optimisation, synthetic-artifact features | 0.98092 | 29 / 4,315 — Top 0.7% | Team: ML pipeline by a senior ML engineer |
+| S6E3 | [Customer Churn Prediction](predicting_of_cusmoters_churn_s6e3/) | Binary (ROC-AUC) | Multi-seed ensemble, GNN, domain-driven feature engineering | 0.91822 | 179 / 4,142 — Top 4% | First competition: ensemble built on public notebooks |
 
 ## Inside a competition folder
 
