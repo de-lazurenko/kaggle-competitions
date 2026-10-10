@@ -27,23 +27,38 @@ flowchart TD
     classDef rej fill:#f2f1ec,stroke:#9a9890,stroke-dasharray:4 3,color:#52514e
     classDef pend fill:#fdf0cc,stroke:#eda100,color:#222
 
-    B01["01 Baseline LightGBM · 0.95882"]:::kept
-    B01 -->|"+0.0013"| F02["02 route frequency + target encoding · 0.96015"]:::kept
-    F02 -->|"+0.0007"| X03["03–04 X_final + tuned LightGBM · 0.96088"]:::kept
+    subgraph FEAT["Features · LightGBM CV"]
+        B01["01 Baseline LightGBM · 0.95885"]:::kept
+        B01 -->|"+0.00059"| E8["02·E8 distance frequency"]:::kept
+        E8 -->|"+0.00020"| E9["02·E9 distance × travel-type frequency"]:::kept
+        E9 -->|"+0.00051"| E12["02·E12 in-fold TE of distance · 0.96015"]:::kept
+        E12 -->|"+0.00057"| X03["03 X_final: route profile,<br/>original-data model · 0.96072"]:::kept
+    end
 
-    X03 -->|"+0.00004"| GB["05 CatBoost ×2, XGBoost"]:::kept
-    X03 -->|"+0.00019"| NN["06 own MLP → 07 RealMLP"]:::kept
-    NN -->|"+0.00007"| M10["09–10 RealMLP-rich · 0.96129"]:::big
-    X03 -->|"+0.00059"| IC["08 TabPFN, public members · 0.96158<br/>+ TabPFN raw, TabICL"]:::big
+    subgraph MOD["Models · gain in the stack's nested CV when added"]
+        M04["04 LightGBM Optuna · 0.96088<br/>stack start 0.96090"]:::kept
+        M04 -->|"+0.00004"| C1["05 CatBoost v1"]:::kept
+        C1 -->|"+0.00001"| C2["05 CatBoost v2"]:::kept
+        C2 -->|"−0.00001"| XG["05 XGBoost"]:::kept
+        M04 -->|"+0.00010"| M06["06 own MLP"]:::kept
+        M06 -->|"+0.00009"| M07["07 RealMLP"]:::kept
+        M07 --> F09["09 X_rich, 92 columns"]:::kept
+        F09 -->|"+0.00007"| M10["10 RealMLP-rich · 0.96129"]:::big
+        M04 -->|"+0.00057"| M08["08 TabPFN, public members · 0.96158"]:::big
+        M08 -->|"+0.00001"| M08r["08 TabPFN raw"]:::kept
+        M08r -->|"+0.00001"| M08i["08 TabICL"]:::kept
+    end
 
-    GB -.-> R1["21 window target rates"]:::rej
+    X03 -->|"+0.00016 tuning"| M04
+
+    XG -.-> R1["21 window target rates"]:::rej
     M10 -.-> R2["12–18, 22 recipes, aux features,<br/>teachers, TabM, recipe mix"]:::rej
-    IC -.-> R3["19 own TabPFN, 200k context"]:::rej
+    M08 -.-> R3["19 own TabPFN, 200k context"]:::rej
     R3 -.-> P20["20 own TabPFN, full context"]:::pend
 
-    GB --> S11
+    XG --> S11
     M10 --> S11
-    IC --> S11
+    M08i --> S11
     S11["11 Stack · nested CV 0.96178 · LB 0.96132"]:::big
 ```
 
