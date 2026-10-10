@@ -47,22 +47,22 @@ flowchart TD
         M04 -->|"+0.00057"| M08["08 TabPFN, public members · 0.96158"]:::big
         M08 -->|"+0.00001"| M08r["08 TabPFN raw"]:::kept
         M08r -->|"+0.00001"| M08i["08 TabICL"]:::kept
+
+        XG -.-> R1["21 window target rates"]:::rej
+        M10 -.-> R2["12–18, 22 recipes, aux features,<br/>teachers, TabM, recipe mix"]:::rej
+        M08 -.-> R3["19 own TabPFN, 200k context"]:::rej
+        R3 -.-> P20["20 own TabPFN, full context"]:::pend
+
+        XG --> S11
+        M10 --> S11
+        M08i --> S11
+        S11["11 Stack · nested CV 0.96178 · LB 0.96132"]:::big
     end
 
     X03 -->|"+0.00016 tuning"| M04
 
-    XG -.-> R1["21 window target rates"]:::rej
-    M10 -.-> R2["12–18, 22 recipes, aux features,<br/>teachers, TabM, recipe mix"]:::rej
-    M08 -.-> R3["19 own TabPFN, 200k context"]:::rej
-    R3 -.-> P20["20 own TabPFN, full context"]:::pend
-
-    XG --> S11
-    M10 --> S11
-    M08i --> S11
-    S11["11 Stack · nested CV 0.96178 · LB 0.96132"]:::big
-
-    style FEAT fill:#ffffff,stroke:#2a78d6,stroke-width:1px,color:#2a78d6
-    style MOD fill:#ffffff,stroke:#2a78d6,stroke-width:1px,color:#2a78d6
+    style FEAT fill:none,stroke:#5b8fd6,stroke-width:1px,color:#5b8fd6
+    style MOD fill:none,stroke:#5b8fd6,stroke-width:1px,color:#5b8fd6
 ```
 
 | On the map | Meaning |
