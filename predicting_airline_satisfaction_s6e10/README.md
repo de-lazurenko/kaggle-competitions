@@ -4,10 +4,9 @@ Predict whether a passenger is satisfied (binary, metric **ROC-AUC**). ~700k syn
 
 | Final result | |
 |---|---|
-| Stack of 10 models (logistic regression on logits) | nested CV **0.96178**, public LB **0.96132** |
-| Position | 124th of 734 on the public LB (2026-10-05); final place after the private LB opens on 31 Oct |
+| Stack of 10 models (logistic regression on logits) | nested CV **0.96178**, public LB **0.96132**, privat LB **0.96209** |
+| Position | 1,086 / 3,747 — Top 29% |
 | Final submissions (selected on Kaggle) | main: 10-model stack (`submissions/final_main_stack_10models.csv`); backup: 8-model stack built from earlier member versions (`submissions/final_backup_stack_8models.csv`, CV 0.96168, LB 0.96124) |
-| Status (2026-10-10) | stack frozen: all experiments finished. Deadline 31 Oct 2026 |
 
 ## Key takeaways
 
