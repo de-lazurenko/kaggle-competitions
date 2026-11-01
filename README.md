@@ -19,7 +19,7 @@ My own pipeline end to end: features, validation, models and stacking (with an A
 
 | Season | Competition | Target (metric) | Key techniques | Score | Result |
 |--------|-------------|-----------------|----------------|-------|--------|
-| S6E10 | [Airline Passenger Satisfaction](predicting_airline_satisfaction_s6e10/) | Binary (ROC-AUC) | Route frequency & target encoding, original-data model, TabPFN + RealMLP stack (logistic regression), nested CV | 0.96132 (public LB) | in progress |
+| S6E10 | [Airline Passenger Satisfaction](predicting_airline_satisfaction_s6e10/) | Binary (ROC-AUC) | Route frequency & target encoding, original-data model, TabPFN + RealMLP stack (logistic regression), nested CV | 0.96209 | 1,086 / 3,747 — Top 29% |
 | S6E9 | [EV Purchase Prediction](predicting_electric_vehicle_purchases_s6e9/) | Binary (ROC-AUC) | Reverse-engineered scoring formula (buy / worry scores), nested target encoding, LightGBM + Optuna | 0.94592 | 1,272 / 3,575 — Top 36% |
 
 ### Team and assisted
